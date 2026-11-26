@@ -10,6 +10,7 @@
 
 #import "CDEManagedObjectIDToStringValueTransformer.h"
 #import "CDEAutosaveInformation.h"
+#import <objc/runtime.h>
 
 @interface CDEDocument ()
 
@@ -98,13 +99,13 @@
 
 - (BOOL)validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)item {
   // Validate the Entity menu
-  if([item action] == @selector(deleteSelectedObjcts:)) {
+  if(sel_isEqual([item action], @selector(deleteSelectedObjcts:))) {
     return self.editorViewController.canDeleteSelectedManagedObjects;
   }
-  if([item action] == @selector(insertObject:)) {
+  if(sel_isEqual([item action], @selector(insertObject:))) {
     return self.editorViewController.canInsertManagedObject;
   }
-  if([item action] == @selector(copySelectedObjectsAsCSV:)) {
+  if(sel_isEqual([item action], @selector(copySelectedObjectsAsCSV:))) {
     return self.editorViewController.canCreateCSVRepresentationWithSelectedObjects;
   }
   
